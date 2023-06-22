@@ -22,7 +22,7 @@ function Navbar2() {
     }, []);
 
     return (
-        <div className="font-sans fixed  w-full z-10 bg-white ">
+        <div className="font-sans fixed  w-full  bg-white ">
             <div className="flex flex-row justify-around items-center p-6 shadow-lg rounded-2xl">
                 <h1 className="text-2xl font-bold text-[#A51910]">GUAN-E-SHOP</h1>
                 {/* inputfield */}

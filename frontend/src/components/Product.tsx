@@ -14,6 +14,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import { Link } from 'react-router-dom';
+import AllProduct from './AllProduct';
 
 const { Header, Content, Sider } = Layout;
 
@@ -130,8 +131,8 @@ function Product() {
             </div>
 
             {/* Product */}
-            
-           
+
+           <AllProduct/>
           </Content>
         </Layout>
       </Layout>

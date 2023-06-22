@@ -4,7 +4,7 @@ import bg from '../assets/bg.png'
 import photo from '../assets/bg photo.png'
 import { ArrowRightOutlined } from '@ant-design/icons';
 import Featured from './Featured';
-import rectangle from '../assets/rectangle.png'
+import rectangle from '../assets/rectangle.png';
 import Latest from './Latest';
 import Footer from './Footer';
 

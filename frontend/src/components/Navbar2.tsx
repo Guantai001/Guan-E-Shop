@@ -25,10 +25,9 @@ function Navbar2() {
         <div className="font-sans fixed  w-full  bg-white ">
             <div className="flex flex-row justify-around items-center p-6 shadow-lg rounded-2xl">
                 <h1 className="text-2xl font-bold text-[#A51910]">GUAN-E-SHOP</h1>
-                {/* inputfield */}
-                <div className="flex items-center shadow-md rounded-lg">
-                    <input type="bg-[#F4F4F4]" placeholder="Search" className="p-2 rounded-lg" />
-                    <button className="bg-[#A51910] text-white p-2 rounded-lg">Search</button>
+                
+                <div className="flex items-center rounded-lg">
+                    <input type="text" placeholder="Search" className="p-2 rounded-full shadow-lg  bg-[#F4F4F4]" />
                 </div>
                 {/* links to home Product About contact  */}
                 <div className="flex flex-row  items-center">

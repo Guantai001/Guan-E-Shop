@@ -45,12 +45,12 @@ function CheckOut() {
                   <img src={Delete2} alt="" />
                 </div>
                 <div className="flex flex-col items-center  h-20 justify-around m-8">
-                  <hr className="border-[#e1e0e0] border-2 w-full items-center mx-4" />
+                  <hr className="border-[#e1e0e0] border-l-2 w-full items-center mx-4" />
                   <div className="flex flex-row justify-between items-center w-full">
                     <p className="text-xl font-bold ">TOTAL</p>
                     <p className="text-xl font-bold "> Ksh 3,800</p>
                   </div>
-                  <hr className="border-[#e1e0e0] border-2 w-full items-center mx-4" />
+                  <hr className="border-[#e1e0e0] border-l-2 w-full items-center mx-4" />
                 </div>
 
               </div>
@@ -70,23 +70,3 @@ function CheckOut() {
 }
 
 export default CheckOut
-
-
-// <div className=" w-full mx-auto flex flex-row justify-center items-center ">
-//           <div className="items-center w-1/2">
-//             <div 
-//             style={{
-//                borderTopRightRadius: '50px',
-//                 borderBottomRightRadius: '50px',
-//             }}
-//             className="flex flex-row items-center bg-[#A51910] w-full h-20 justify-around ">
-//               <p className="text-xl font-bold text-white">PRODUCT</p>
-//               <p className="text-xl font-bold text-white"> QTY</p>
-//               <p className="text-xl font-bold text-white"> PRICE</p>
-//               <img src={Delete} alt="" />
-//             </div>
-//           </div>
-//           <div className="flex flex-col items-start w-1/2 text-start mx-6">
-
-//           </div>
-//         </div>

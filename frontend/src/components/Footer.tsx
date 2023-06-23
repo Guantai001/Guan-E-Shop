@@ -44,7 +44,7 @@ function Footer() {
                     </div>
                     <div className=" justify-around items-center p-6 w-1/4 ">
                         <h1 className="text-2xl font-bold text-white">Follow Us</h1>
-                        <hr className="border-[#A51910] border-2 w-20 items-center" />
+                        <hr className="border-[#A51910] border-l-2 w-20 items-center" />
 
                         <div className="flex flex-row mt-2">
                             <a href="https://www.facebook.com/your-facebook-link">
@@ -65,7 +65,7 @@ function Footer() {
                 </div>
 
                 <div className='justify-center items-center flex flex-col '>
-                    <hr className="border-[#a2a1a1] border-2 w-full" />
+                    <hr className="border-[#a2a1a1] border-l-2 w-full" />
                     <div className='flex flex-row text-center font-bold text-white my-2'>
                         <p className='text-center mx-auto'>
                             Copyright ©{new Date().getFullYear()}

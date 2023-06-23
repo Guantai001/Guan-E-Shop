@@ -9,7 +9,7 @@ import youtube from '../assets/youtube.png'
 function Footer() {
     return (
         <div>
-            <div className="bg-[#2D2B2B] mt-10 w-full">
+            <div className="bg-[#2D2B2B]  w-full">
                 <div className=" justify-center flex flex-row p-6">
                     <div className=" justify-around items-center p-6 w-1/4 ">
                         <h1 className="text-2xl font-bold text-[#A51910]">GUAN-E-SHOP</h1>

@@ -10,6 +10,8 @@ import Detail from './components/Detail';
 import CheckOut from './components/CheckOut';
 import './App.css';
 import Footer from './components/Footer';
+import Login from './components/Login';
+import Signup from './components/Signup';
 
 
 function App() {
@@ -24,8 +26,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/detail" element={[<Detail />]} />
         <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
-      
     </Router>
    
     </div>

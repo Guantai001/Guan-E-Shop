@@ -93,30 +93,30 @@ function Profile() {
 
                 {page === 1 && (
 
-                  <div className="flex flex-row">
+                  <div className="flex flex-row ">
                     <div className="flex flex-col items-start w-full text-start mx-6">
                       <h1 className="text-2xl font-bold ">PROFILE</h1>
                       <hr className="border-[#A51910] border-2 w-20 items-center" />
 
                       <div className="flex flex-row w-full justify-around my-4">
                         <p className="text-xl font-bold text-start"> Name :</p>
-                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-2xl p-2"
+                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-xl p-2"
 
                         />
                       </div>
                       <div className="flex flex-row w-full justify-around my-4">
                         <p className="text-xl font-bold text-start"> Phone No : </p>
-                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-2xl p-2"
+                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-xl p-2"
                         />
                       </div>
                       <div className="flex flex-row w-full justify-around my-4">
                         <p className="text-xl font-bold "> Email : </p>
-                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-2xl p-2"
+                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-xl p-2"
                         />
                       </div>
                       <div className="flex flex-row w-full justify-around my-4">
                         <p className="text-xl font-bold "> Address </p>
-                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-2xl p-2"
+                        <input type="text" className="text-xl rounded-full bg-[#F4F4F4] shadow-xl p-2"
                         />
                       </div>
                       <div className="flex flex-row w-full justify-around my-4">
@@ -141,11 +141,7 @@ function Profile() {
                 )}
 
                 {page === 2 && (
-
-                  <div className="flex flex-col items-start w-full text-start mx-6">
-                    <p className="text-xl font-bold">Payment Details</p>
-                    <Order />
-                  </div>
+                  <Order />
                 )}
               </div>
             </div>

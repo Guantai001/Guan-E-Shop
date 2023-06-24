@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Pagination } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 interface ProductData {
+  _id: any;
   name: string;
   description: string;
   price: number;
@@ -49,9 +51,11 @@ function AllProduct(props: ProductProps) {
                 <span className="text-md text-[#A51910]">Ksh </span>
                 {item.price}
               </p>
-              <button className="bg-[#A51910] text-white p-2 rounded-full items-center text-semibold shadow-2xl">
-                <PlusOutlined style={{ fontSize: '20px', marginLeft: '2px' }} />
-              </button>
+              <Link to={`/detail/${item._id}`} state={{ productData }}>
+  <button className="bg-[#A51910] text-white p-2 rounded-full items-center text-semibold shadow-2xl">
+    <PlusOutlined style={{ fontSize: '20px', marginLeft: '2px' }} />
+  </button>
+</Link>
             </div>
           </Card>
         ))}

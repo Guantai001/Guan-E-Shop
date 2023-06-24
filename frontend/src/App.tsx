@@ -13,15 +13,15 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Signup from './components/Signup';
 
-export interface productData {
-  id: number;
+export interface ProductData {
+  _id: string;
   name: string;
   price: number;
   image: string;
   description: string;
-  category: string; 
+  category: string;
+  __v: number;
 }
-
 
 
 function App() {
@@ -49,7 +49,7 @@ React.useEffect(() => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact/>} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/detail" element={[<Detail />]} />
+        <Route path="/detail/:id" element={[<Detail productData={productData} />]} />
         <Route path="/checkout" element={<CheckOut />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

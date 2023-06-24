@@ -33,9 +33,14 @@ const items = [
   label: `nav ${index + 1}`,
 }));
 
-function Product() {
+interface productProps {
+  productData : ProductData[]
+}
 
 
+function Product(props : productProps) {
+
+  const {productData} = props
 
   return (
     <div className="bg-[#ffffff]">
@@ -100,10 +105,11 @@ function Product() {
             </Link>
           </Menu>
         </Sider>
-        <Layout className="site-layout" style={{ marginLeft: 200, backgroundColor: '#fff', }}>
+        <Layout className="" style={{ marginLeft: 200, backgroundColor: '#fff', }}>
           <Header
             style={{
               padding: 0,
+              margin: 0,
               backgroundColor: '#fff',
             }}
           />
@@ -132,7 +138,8 @@ function Product() {
 
             {/* Product */}
 
-           <AllProduct/>
+           <AllProduct  productData={productData} />
+           
           </Content>
         </Layout>
       </Layout>

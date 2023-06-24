@@ -7,6 +7,7 @@ const passport = require('passport');
 const app = express();
 const port = 3001;
 const userRouter = require('./routes/authUser');
+const productRouter = require('./routes/products');
 
 const MongoStore = require('connect-mongo');
 
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 
 
 app.use('/api/user', userRouter);
+app.use('/api/products', productRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 

@@ -71,13 +71,15 @@ router.post('/register', async (req, res) => {
                 newUser = new GoogleUser({
                     name,
                     email,
-                    googleId: 'generatedGoogleId'
+                    googleId: 'generatedGoogleId',
+                    picture: req.body.picture,
                 });
             } else {
                 let newUser = new User({
                     name: req.body.name,
                     email: req.body.email,
                     password: req.body.password,
+                    picture: req.body.picture,
 
                 });
                 newUser.password = await hashPassword(newUser.password);
@@ -160,7 +162,7 @@ router.patch('/:id', upload.single("image"), async (req, res) => {
         }
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path);
-            user.image = result.secure_url;
+            user.picture = result.secure_url;
         }
         await user.save();
         return res.status(200).json({

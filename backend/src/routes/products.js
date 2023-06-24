@@ -12,10 +12,9 @@ const Product = require('../database/schemas/Product');
 // });
 
 // get all products
-
 router.get('/', async (req, res) => {
     try {
-        const product = await Product.find();
+        const amenities = await Product.find();
         res.json(amenities);
     } catch (err) {
         res.json({
@@ -23,6 +22,7 @@ router.get('/', async (req, res) => {
         });
     }
 });
+
 
 // get specific product
 router.get('/:productId', async (req, res) => {
@@ -37,15 +37,16 @@ router.get('/:productId', async (req, res) => {
 });
 
 // create product
-router.post('/', async (req, res) => {
-    const product = new Product({
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        image: req.body.image,
-        category: req.body.category
-    });
+router.post('/create',upload.single('image'), async (req, res) => {
     try {
+        const result = await cloudinary.uploader.upload(req.file.path); 
+        const product = new Product({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            image: result.secure_url,
+            category: req.body.category
+        });
         const savedProduct = await product.save();
         res.json(savedProduct);
     } catch (err) {
@@ -54,6 +55,8 @@ router.post('/', async (req, res) => {
         });
     }
 });
+
+
 
 // update product
 router.patch('/:productId', async (req, res) => {

@@ -50,7 +50,7 @@ function Navbar2() {
           <Link to="/contact" className="p-2 hover:text-[#A51910]">
             CONTACT
           </Link>
-          <Link to="/cart" className="p-2 mx-4 hover:text-[#A51910]">
+          <Link to="/checkout" className="p-2 mx-4 hover:text-[#A51910]">
             <img src={cart} alt="cart" className="w-8 h-8" />
           </Link>
           <Link to="/profile" className="p-2 hover:text-[#A51910]">

@@ -5,8 +5,18 @@ import Delete from '../assets/delete.png'
 import Delete2 from '../assets/delete2.png'
 import image4 from '../assets/image(3).png'
 import Check from './Check';
+import { UserData } from '../App';
 
-function CheckOut() {
+interface UsersProps {
+  usersData: UserData[];
+}
+
+function CheckOut(props: UsersProps){
+
+  const {usersData} = props
+
+  console.log(usersData)
+
   return (
     <div>
       <Navbar2 />

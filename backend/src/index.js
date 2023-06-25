@@ -2,12 +2,15 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-
+const cors = require('cors');
 
 const app = express();
+app.use(cors());
+
 const port = 3001;
 const userRouter = require('./routes/authUser');
 const productRouter = require('./routes/products');
+const cartRouter = require('./routes/cart');
 
 const MongoStore = require('connect-mongo');
 
@@ -41,6 +44,7 @@ app.use((req, res, next) => {
 
 app.use('/api/user', userRouter);
 app.use('/api/products', productRouter);
+app.use('/api/cart', cartRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 

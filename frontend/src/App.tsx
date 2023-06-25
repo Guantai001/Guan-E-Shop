@@ -9,9 +9,9 @@ import Profile from './components/Profile';
 import Detail from './components/Detail';
 import CheckOut from './components/CheckOut';
 import './App.css';
-import Footer from './components/Footer';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import UserAuthProvider from './UserAuthContext';
 
 export interface ProductData {
   _id: string;
@@ -21,6 +21,13 @@ export interface ProductData {
   description: string;
   category: string;
   __v: number;
+}
+
+export interface UserData{
+  _id:string;
+  name:string;
+  email:string;
+  picture:string 
 }
 
 
@@ -35,14 +42,26 @@ React.useEffect(() => {
   .catch(err => console.log(err))
 }, [])
 
+// fectch users
 
+   const [usersData,setUsersData] = React.useState<userData[]>([]);
+  
+React.useEffect(()=>{
+  fetch('http://localhost:3001/api/user')
+  .then(res => res.json())
+  .then(json => setUsersData(json))
+  .catch(err => console.log(err))
+}, [])
 
+// console.log(usersData)
 
 
 
   return (
     <div className="App">
-    <Router>
+     
+    <Router> 
+      <UserAuthProvider>
       <Routes>
         <Route path="/" element={<Home productData={productData} />} />
         <Route path="/product" element={<Product productData={productData} />} />
@@ -50,11 +69,13 @@ React.useEffect(() => {
         <Route path="/contact" element={<Contact/>} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/detail/:id" element={[<Detail productData={productData} />]} />
-        <Route path="/checkout" element={<CheckOut />} />
+        <Route path="/checkout" element={<CheckOut usersData = {usersData}/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
+      </UserAuthProvider>   
     </Router>
+ 
    
     </div>
   );

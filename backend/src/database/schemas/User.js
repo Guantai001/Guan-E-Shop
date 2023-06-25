@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     name: {
         type: mongoose.Schema.Types.String,
         required: true,
+        unique:true
       
     },
     email: {

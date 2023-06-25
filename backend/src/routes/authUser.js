@@ -23,15 +23,15 @@ router.get('/logout', (req, res) => {
 // Google OAuth
 router.get('/google', passport.authenticate('google'), (req, res) => {
     console.log(req.user);
-    res.send('Logged in');
+    req.session.user = req.user;
+
 });
 
 router.get('/google/callback', passport.authenticate('google'), (req, res) => {
     console.log(req.user);
     req.session.user = req.user;
-    res.send('Logged in');
+    res.redirect('http://localhost:5173/'); // Redirect to the home page
 });
-
 
 // get all users
 router.get('/', async (req, res) => {

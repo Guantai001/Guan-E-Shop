@@ -11,14 +11,16 @@ const {
   comparePassword
 } = require('../utils/helpers');
 
-
+var jwt = require('jsonwebtoken');
+const config = require('../config');
 
 
 
 router.get('/currentuser', (req, res) => {
   if (req.session.user) {
     return res.status(200).json({
-      user: req.session.user
+      user: req.session.user,
+      token: req.session.token
     });
   } else {
     return res.status(401).json({
@@ -48,9 +50,13 @@ router.get('/google/callback', passport.authenticate('google'), (req, res) => {
   // The user is now logged in and req.user contains the user information
   console.log(req.user);
   req.session.user = req.user;
-  res.redirect('http://localhost:5173/'); // Redirect to the home page
+  // Generate a token for the user
+  const token = jwt.sign({ id: req.user._id }, config.secret, { expiresIn: '24h' });
+  // Store the token in the session
+  req.session.token = token;
+  // Redirect to the home page
+  res.redirect('http://localhost:5173/');
 });
-
 
 // get all users
 router.get('/', async (req, res) => {
@@ -70,8 +76,6 @@ router.get('/', async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 });
-
-
 
 router.post('/register', async (req, res) => {
   try {
@@ -122,32 +126,39 @@ router.post('/register', async (req, res) => {
 });
 
 // login user
+
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: "Please enter all fields" });
+      return res.status(400).json({ message: 'Please enter all fields' });
     }
 
     const userDb = await User.findOne({ email });
 
     if (!userDb) {
-      return res.status(400).json({ message: "Email or password is incorrect" });
+      return res.status(400).json({ message: 'Email or password is incorrect' });
     }
 
     const isMatch = await comparePassword(password, userDb.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Email or password is incorrect" });
+      return res.status(400).json({ message: 'Email or password is incorrect' });
     }
 
+    // Create a token
+    const token = jwt.sign({ id: userDb._id }, config.secret, { expiresIn: '24h' });
+
     req.session.user = userDb;
-    return res.status(200).json({ message: "Login successful", user: userDb });
+    return res.status(200).json({
+      message: 'Logged in successfully',
+      user: userDb,
+      token
+    });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: 'Internal server error' });
   }
 });
-
 
 
 // delete user

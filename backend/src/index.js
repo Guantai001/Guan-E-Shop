@@ -51,3 +51,5 @@ app.use('/api/products', productRouter);
 app.use('/api/cart', cartRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+// Path: backend/src/index.js

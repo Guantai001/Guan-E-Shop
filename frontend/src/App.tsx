@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import Product from './components/Product';
@@ -32,7 +32,13 @@ export interface UserData{
 
 
 function App() {
+
+
+
+
+
 const [productData ,setProductData] = React.useState<productData[]>([]); 
+
 
 // be able to fecth error  if the data is not fetched
 React.useEffect(() => {
@@ -42,23 +48,39 @@ React.useEffect(() => {
   .catch(err => console.log(err))
 }, [])
 
-// fectch users
-
-   const [usersData,setUsersData] = React.useState<userData[]>([]);
-  
-React.useEffect(()=>{
+// fectch logged in user 
+const [usersData ,setUsersData] = React.useState<UserData[]>([]);
+useEffect(() => {
   fetch('http://localhost:3001/api/user')
   .then(res => res.json())
   .then(json => setUsersData(json))
   .catch(err => console.log(err))
 }, [])
+// get the user data from the local storage or session storage
 
-// console.log(usersData)
+const [user, setUser] = useState(null);
 
+useEffect(() => {
+  fetch('http://localhost:3001/api/user/currentuser', {
+    method: 'GET',
+    credentials: 'include' // Include cookies
+  })
+    .then(response => response.json())
+    .then(data => {
+      setUser(data.user);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+}, []);
 
+useEffect(() => {
+  console.log("user", user);
+}, [user]);
 
   return (
-    <div className="App">
+
+  <div className="App">
      
     <Router> 
       <UserAuthProvider>

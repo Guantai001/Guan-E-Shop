@@ -27,7 +27,7 @@ passport.use(new GoogleStrategy({
     console.log(accessToken, refreshToken);
     console.log(profile);
     try {
-        const googleUser = await GoogleUser.findOne({ googleId: profile.id });
+        const googleUser = await GoogleUser.findOne({ email: profile.emails[0].value });
         if (googleUser) {
             console.log("User found: " + googleUser);
             req.session.user = googleUser;  // Store the user in the session

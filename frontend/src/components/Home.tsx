@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from './Navbar'
 import bg from '../assets/bg.png'
 import photo from '../assets/bg photo.png'
@@ -8,6 +8,7 @@ import rectangle from '../assets/rectangle.png';
 import Latest from './Latest';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
+import UserAuthContext from '../UserAuthContext';
 
 interface ProductData {
     productData : ProductData[]
@@ -15,6 +16,10 @@ interface ProductData {
 
 
 function Home(props : ProductData) {
+
+
+
+
 
     const {productData} = props
     // console.log(productData)

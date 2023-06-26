@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Navbar2 from './Navbar2';
 import { Layout, Menu } from 'antd';
 import AllProduct from './AllProduct';
 import Footer from './Footer';
+import { UserAuthContext } from '../UserAuthContext';
 
 const { Header, Content, Sider } = Layout;
 
@@ -18,6 +19,7 @@ const categories = [
 interface ProductProps {
   productData: ProductData[];
 }
+
 
 function Product(props: ProductProps) {
   const { productData } = props;

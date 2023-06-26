@@ -15,7 +15,9 @@ function CheckOut(props: UsersProps){
 
   const {usersData} = props
 
-  console.log(usersData)
+  // ge the user in the session storage
+  const user = sessionStorage.getItem("user");
+  console.log(user);
 
   return (
     <div>

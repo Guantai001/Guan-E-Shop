@@ -36,7 +36,7 @@ function AllProduct(props: ProductProps) {
 
   return (
     <>
-      <div className="m-4 flex flex-wrap justify-center" style={{ zIndex: 1 }}>
+      <div className="m-4 flex flex-wrap justify-center h-screen" style={{ zIndex: 1 }}>
         {currentItems.map((item) => (
           <Card
             key={item.name}

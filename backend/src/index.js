@@ -5,7 +5,11 @@ const passport = require('passport');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:5173'
+}));
+
 
 const port = 3001;
 const userRouter = require('./routes/authUser');
@@ -26,9 +30,13 @@ app.use(
     session({
         secret: 'supersecret',
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
         store: MongoStore.create({
-          mongoUrl: 'mongodb://localhost:27017/groceries' }),
+          mongoUrl: 'mongodb://localhost:27017/e-commerce' }),
+        cookie: {
+          sameSite: 'none',
+          secure: true
+        }
     })
 );
 

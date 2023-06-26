@@ -11,7 +11,10 @@ const {
   comparePassword
 } = require('../utils/helpers');
 
-// get current user that is logged in
+
+
+
+
 router.get('/currentuser', (req, res) => {
   if (req.session.user) {
     return res.status(200).json({
@@ -23,6 +26,7 @@ router.get('/currentuser', (req, res) => {
     });
   }
 });
+
 
 
 router.get('/logout', (req, res) => {
@@ -51,15 +55,19 @@ router.get('/google/callback', passport.authenticate('google'), (req, res) => {
 // get all users
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find();
-    return res.status(200).json({
-      users
-    });
+    // Check if user is logged in
+    const currentUser = getCurrentUser(req);
+    if (currentUser) {
+      // User is logged in
+      const users = await User.find();
+      return res.status(200).json({ users });
+    } else {
+      // User is not logged in
+      return res.status(401).json({ message: "Unauthorized" });
+    }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({
-      message: "Internal server error"
-    });
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -116,45 +124,31 @@ router.post('/register', async (req, res) => {
 // login user
 router.post('/login', async (req, res) => {
   try {
-      const { email, password } = req.body;
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please enter all fields" });
+    }
 
-      if (!email || !password) {
-          return res.status(400).json({ message: "Please enter all fields" });
-        }
-      
-        let userDb;
-        if (loginMethod === 'google') {
-          // Login with Google
-          userDb = await GoogleUser.findOne({ email });
-        } else {
-          // Login with local authentication
-          userDb = await User.findOne({ email });
-        }
-        
-        if (!userDb) {
-          return res.status(400).json({ message: "Email or password is incorrect" });
-        }
-      
-        // Perform the password comparison for local authentication only
-        if (loginMethod !== 'google') {
-          const isMatch = await comparePassword(password, userDb.password);
-          if (!isMatch) {
-            return res.status(400).json({ message: "Invalid credentials" });
-          }
-        }
-      
-        req.session.user = userDb;
-        return res.status(200).json({ message: "Login successful" });
-      }
+    const userDb = await User.findOne({ email });
 
+    if (!userDb) {
+      return res.status(400).json({ message: "Email or password is incorrect" });
+    }
 
-  catch (error) {
-      console.log(error);
-      return res.status(500).json({
-          message: "Internal server error"
-      });
+    const isMatch = await comparePassword(password, userDb.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: "Email or password is incorrect" });
+    }
+
+    req.session.user = userDb;
+    return res.status(200).json({ message: "Login successful", user: userDb });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
+
+
 
 // delete user
 router.delete('/:id', async (req, res) => {

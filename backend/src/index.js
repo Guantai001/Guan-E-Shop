@@ -33,10 +33,6 @@ app.use(
         saveUninitialized: true,
         store: MongoStore.create({
           mongoUrl: 'mongodb://localhost:27017/e-commerce' }),
-        cookie: {
-          sameSite: 'none',
-          secure: true
-        }
     })
 );
 
@@ -55,5 +51,3 @@ app.use('/api/products', productRouter);
 app.use('/api/cart', cartRouter);
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-// Path: backend/src/index.js

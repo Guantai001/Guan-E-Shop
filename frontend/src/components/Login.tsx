@@ -22,35 +22,11 @@ function Login() {
 
     // login with google once it logs in it will redirect to the home page
     
-  // Check if the user is logged in when the page loads
-  useEffect(() => {
-    const checkLoggedInUser = async () => {
-      try {
-        const response = await fetch("http://localhost:3001/api/user/checkLoggedIn");
-        if (response.ok) {
-          const user = await response.json();
-          console.log("User is logged in", user);
-          navigate('/');
-        } else {
-          console.error('Authentication failed');
-        }
-      } catch (error) {
-        console.error('Error during authentication', error);
-      }
-    };
-
-    checkLoggedInUser();
-  }, [navigate]);
-
+ 
   const handleGoogleLogin = () => {
     window.location.href = "http://localhost:3001/api/user/google";
   };
 
-  // Delay the retrieval of user information
-// setTimeout(() => {
-//   const user = sessionStorage.getItem("user");
-//   console.log(user);
-// }, 1000);
 
 
 

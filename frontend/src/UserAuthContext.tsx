@@ -16,6 +16,7 @@ interface UserAuthContextData {
     login: (email: string, password: string, userType: string) => void;
     register: (name: string, email: string, password: string,) => void;
     logout: () => void;
+    handleGoogleLogin: (googleUser: User) => void;
    
 }
 
@@ -29,7 +30,7 @@ export default function UserAuthProvider({ children }: { children: React.ReactNo
     const [user, setUser] = useState<User | undefined>();
 
 
-    // login
+    //login user
     const login = (email: string, password: string): void => {
       fetch('http://localhost:3001/api/user/login', {
         method: 'POST',
@@ -45,12 +46,16 @@ export default function UserAuthProvider({ children }: { children: React.ReactNo
           return res.json();
         })
         .then((response) => {
-          message.success('Login successful');
-          setUser(response.user);
-          localStorage.setItem('token', response.jwt);
+        // console.log(response.user);
+// give the user a token
+          localStorage.setItem('token', response.token);
           localStorage.setItem('user', JSON.stringify(response.user));
           sessionStorage.setItem('user', JSON.stringify(response.user));
-          sessionStorage.setItem('jwtToken', response.jwt);
+          sessionStorage.setItem('jwtToken', response.token);
+          setOnChange(!change);
+
+          message.success('Login successful');
+          setUser(response.user);
           navigate('/');
         })
         .catch((error) => {
@@ -58,13 +63,22 @@ export default function UserAuthProvider({ children }: { children: React.ReactNo
           message.error('Email or password is incorrect');
         });
     };
+// Update the user state and store the user data after a successful Google login
+const handleGoogleLogin = (googleUser: User) => {
+  setUser(googleUser);
+
+  // Store the user data in local storage
+  localStorage.setItem('user', JSON.stringify(googleUser));
+  window.open("http://localhost:3001/api/user/google", "_self");
+
+  // Proceed with any additional logic or navigation after successful login
+  // ...
+};
+
+
     
-    
-   
-    
-    
-      
-    // register
+
+  // register
     const register = (
         name: string,
         email: string,
@@ -112,8 +126,7 @@ export default function UserAuthProvider({ children }: { children: React.ReactNo
         login,
         register,
         logout,
-   
-       
+        handleGoogleLogin,
     }
 
 

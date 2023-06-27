@@ -24,10 +24,12 @@ router.get('/currentuser', (req, res) => {
     });
   } else {
     return res.status(401).json({
-      message: "Unauthorized"
+      message: "Unauthorized NOY FOUNF"
     });
   }
 });
+
+
 
 
 
@@ -39,21 +41,14 @@ router.get('/logout', (req, res) => {
 });
 
 // Google OAuth
-router.get('/google', passport.authenticate('google'), (req, res) => {
-  // The user is now logged in and req.user contains the user information
-  console.log(req.user);
-  req.session.user = req.user;
- // Redirect to the home page
-});
+router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
 
 router.get('/google/callback', passport.authenticate('google'), (req, res) => {
   // The user is now logged in and req.user contains the user information
   console.log(req.user);
   req.session.user = req.user;
-  // Generate a token for the user
-  const token = jwt.sign({ id: req.user._id }, config.secret, { expiresIn: '24h' });
-  // Store the token in the session
-  req.session.token = token;
+  req.session.token = req.authInfo.access_token; // Store the access token in the session
+
   // Redirect to the home page
   res.redirect('http://localhost:5173/');
 });
@@ -66,62 +61,68 @@ router.get('/', async (req, res) => {
     if (currentUser) {
       // User is logged in
       const users = await User.find();
-      return res.status(200).json({ users });
+      return res.status(200).json({
+        users
+      });
     } else {
       // User is not logged in
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({
+        message: "Unauthorized"
+      });
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({
+      message: "Internal server error"
+    });
   }
 });
 
 router.post('/register', async (req, res) => {
   try {
-      const {
+    const {
+      name,
+      email,
+      password,
+      registrationMethod
+    } = req.body;
+    const userDb = await User.findOne({
+      email
+    });
+    if (userDb) {
+      return res.status(400).json({
+        message: "User already exists"
+      });
+    } else {
+      let newUser;
+      if (registrationMethod === 'google') {
+        newUser = new GoogleUser({
           name,
           email,
-          password,
-          registrationMethod
-      } = req.body;
-      const userDb = await User.findOne({
-          email
-      });
-      if (userDb) {
-          return res.status(400).json({
-              message: "User already exists"
-          });
+          googleId: 'generatedGoogleId',
+          picture: req.body.picture,
+        });
       } else {
-          let newUser;
-          if (registrationMethod === 'google') {
-              newUser = new GoogleUser({
-                  name,
-                  email,
-                  googleId: 'generatedGoogleId',
-                  picture: req.body.picture,
-              });
-          } else {
-              let newUser = new User({
-                  name: req.body.name,
-                  email: req.body.email,
-                  password: req.body.password,
-                  picture: req.body.picture,
+        let newUser = new User({
+          name: req.body.name,
+          email: req.body.email,
+          password: req.body.password,
+          picture: req.body.picture,
 
-              });
-              newUser.password = await hashPassword(newUser.password);
-              await newUser.save();
-              return res.status(201).json({
-                  message: "User created successfully",
-                  newUser
-              });
-          }
+        });
+        newUser.password = await hashPassword(newUser.password);
+        await newUser.save();
+        return res.status(201).json({
+          message: "User created successfully",
+          newUser
+        });
       }
+    }
   } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-          message: "Internal server error"
-      });
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal server error"
+    });
   }
 });
 
@@ -129,26 +130,42 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const {
+      email,
+      password
+    } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: 'Please enter all fields' });
+      return res.status(400).json({
+        message: 'Please enter all fields'
+      });
     }
 
-    const userDb = await User.findOne({ email });
+    const userDb = await User.findOne({
+      email
+    });
 
     if (!userDb) {
-      return res.status(400).json({ message: 'Email or password is incorrect' });
+      return res.status(400).json({
+        message: 'Email or password is incorrect'
+      });
     }
 
     const isMatch = await comparePassword(password, userDb.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Email or password is incorrect' });
+      return res.status(400).json({
+        message: 'Email or password is incorrect'
+      });
     }
 
     // Create a token
-    const token = jwt.sign({ id: userDb._id }, config.secret, { expiresIn: '24h' });
+    const token = jwt.sign({
+      id: userDb._id
+    }, config.secret, {
+      expiresIn: '24h'
+    });
 
     req.session.user = userDb;
+    // After successful authentication
     return res.status(200).json({
       message: 'Logged in successfully',
       user: userDb,
@@ -156,7 +173,9 @@ router.post('/login', async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({
+      message: 'Internal server error'
+    });
   }
 });
 

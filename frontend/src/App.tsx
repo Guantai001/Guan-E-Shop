@@ -12,6 +12,7 @@ import './App.css';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import UserAuthProvider from './UserAuthContext';
+import { message } from 'antd';
 
 export interface ProductData {
   _id: string;
@@ -60,24 +61,31 @@ useEffect(() => {
 
 const [user, setUser] = useState(null);
 
-useEffect(() => {
+const getCurrentUser = (): void => {
+  const token = localStorage.getItem('token'); // Retrieve the token from local storage
+  
   fetch('http://localhost:3001/api/user/currentuser', {
-    method: 'GET',
-    credentials: 'include' // Include cookies
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}` // Include the token in the 'Authorization' header
+    },
   })
-    .then(response => response.json())
-    .then(data => {
-      setUser(data.user);
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error('Unauthorized');
+      }
+      return res.json();
     })
-    .catch(error => {
-      console.error('Error:', error);
+    .then((response) => {
+      setUser(response.user);
+    })
+    .catch((error) => {
+      console.log(error);
+      message.error('Unauthorized');
     });
-}, []);
+};
 
-useEffect(() => {
-  console.log("user", user);
-}, [user]);
-
+console
   return (
 
   <div className="App">

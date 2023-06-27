@@ -17,6 +17,9 @@ passport.deserializeUser(async (id, done) => {
         done(err);
     }
 });
+
+
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -27,10 +30,13 @@ passport.use(new GoogleStrategy({
     console.log(accessToken, refreshToken);
     console.log(profile);
     try {
-        const googleUser = await GoogleUser.findOne({ email: profile.emails[0].value });
+        const googleUser = await GoogleUser.findOne({
+            email: profile.emails[0].value
+        });
         if (googleUser) {
             console.log("User found: " + googleUser);
-            req.session.user = googleUser;  // Store the user in the session
+            req.session.user = googleUser._id; // Store the user ID in the session
+            req.session.token = accessToken; // Store the access token in the session
             return done(null, googleUser);
         } else {
             const newUser = new GoogleUser({
@@ -41,12 +47,15 @@ passport.use(new GoogleStrategy({
             });
             // Save the new user in the database
             await newUser.save();
-            req.session.user = newUser // Store the user in the session
+            req.session.user = newUser._id; // Store the user ID in the session
+            req.session.token = accessToken; // Store the access token in the session
             console.log("User created: " + newUser);
             return done(null, newUser);
         }
     } catch (err) {
         console.log(err);
-        done(err, false, { message: err.message });
+        done(err, false, {
+            message: err.message
+        });
     }
 }));

@@ -4,9 +4,16 @@ import Footer from './Footer';
 import { useState, useEffect } from 'react';
 import Person from '../assets/person.png'
 import Order from './Order';
+import { UserAuthContext } from '../UserAuthContext';
+import { useContext } from 'react';
 
 function Profile() {
 
+  const { logout } = useContext(UserAuthContext);
+
+  const removeuser = () => {
+    logout();
+  };
 
 
   const [page, setPage] = useState(1);
@@ -126,6 +133,7 @@ function Profile() {
                           Save Profile
                         </button>
                         <button
+                          onClick={removeuser}
                           className=" text-[#A51910] rounded-full  shadow-2xl p-2 px-6 my-2
                       border-2 border-[#A51910]
                       "

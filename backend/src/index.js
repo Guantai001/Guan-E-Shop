@@ -27,13 +27,16 @@ app.use(express.json()); // Used to parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(cookieParser());
 app.use(
-    session({
-        secret: 'supersecret',
-        resave: false,
-        saveUninitialized: true,
-        store: MongoStore.create({
-          mongoUrl: 'mongodb://localhost:27017/e-commerce' }),
-    })
+  session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // Set to true if using HTTPS
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000 // Cookie expiration time (24 hours)
+    }
+  })
 );
 
 

@@ -29,8 +29,18 @@ npm install
 ```
 npm run dev
 ```
-
+<!-- Screenshot from 2023-07-03 09-50-30.png -->
 ### Screenshots
+![2023-07-03 09-50-30](screenshots/img.png)
+![2023-07-03 09-50-30](screenshots/img1.png)
+![2023-07-03 09-50-30](screenshots/img2.png)
+![2023-07-03 09-50-30](screenshots/img3.png)
+![2023-07-03 09-50-30](screenshots/img4.png)
+![2023-07-03 09-50-30](screenshots/img5.png)
+![2023-07-03 09-50-30](screenshots/img6.png)
+![2023-07-03 09-50-30](screenshots/img7.png)
+![2023-07-03 09-50-30](screenshots/img8.png)
+![2023-07-03 09-50-30](screenshots/img9.png)
 
 
 
